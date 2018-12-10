@@ -1,0 +1,30 @@
+<section>
+  <div class="page-header">
+    <h1>Predict - {{ vm.mlmodel.name }}</h1>
+  </div>
+  <div class="col-md-12">
+    <form name="vm.form.mlmodelForm" class="form-horizontal" ng-submit="vm.predictModel(vm.form.mlmodelForm.$valid)" novalidate>
+      <fieldset>
+        <div class="form-group" show-errors>
+          <label class="control-label" for="dataset">Dataset</label>
+          <select name="dataset" ng-change="vm.datasetChanged()" ng-model="vm.selectedDataset" ng-options="x.name for x in vm.datasets" id="dataset" class="form-control" required>
+          </select>
+          <div ng-messages="vm.form.mlmodelForm.dataset.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">You must select a dataset.</p>
+          </div>
+          <div role="alert">
+            <p ng-show="vm.featuresCount" class="help-block">This dataset has {{ vm.featuresCount }} columns.</p>
+          </div>
+          <p ng-show="vm.isPredictButtonDisabled && vm.featuresCount && vm.mlmodel.featuresCount" class="help-block text-danger"><strong>Feature Mismatch:</strong> The Model requires {{ vm.mlmodel.featuresCount-1 }} columns/features. However, This dataset has {{ vm.featuresCount }} columns.</p>
+        </div>     
+        <div class="form-group">
+          <button type="submit" ng-disabled="vm.isPredictButtonDisabled" class="btn btn-primary">Predict</button>
+          <p class="help-block" data-ng-bind="vm.loadingText"></p>
+        </div>
+        <div ng-show="vm.error" class="text-danger">
+          <strong ng-bind="vm.error"></strong>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+</section>

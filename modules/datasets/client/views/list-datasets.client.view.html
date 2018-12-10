@@ -1,0 +1,23 @@
+<section>
+  <div class="page-header">
+    <h1>Datasets</h1>
+  </div>
+  <div class="list-group">
+    <div data-ng-repeat="dataset in vm.datasets"
+       class="list-group-item">
+        <h4 class="list-group-item-heading">{{dataset.name}}
+          <!--<a class="btn pull-right btn-primary" data-ng-click="vm.deleteDataset()">
+            <i class="glyphicon glyphicon-trash"></i>
+          </a>-->
+          </h4>
+        <small class="list-group-item-text">
+          Uploaded on
+          <span data-ng-bind="dataset.created | date:'mediumDate'"></span> | 
+          <span data-ng-bind="dataset.datasetURL"></span>
+        </small>
+    </div>
+  </div>
+  <div class="alert alert-warning text-center" data-ng-if="vm.datasets.$resolved && !vm.datasets.length">
+    No Datasets yet, why don't you <a data-ui-sref="datasets.upload">upload one</a>?
+  </div>
+</section>

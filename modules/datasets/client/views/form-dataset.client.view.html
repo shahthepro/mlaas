@@ -1,0 +1,45 @@
+<section>
+  <div class="page-header">
+    <h1>{{vm.dataset._id ? 'Edit Dataset' : 'Upload Dataset'}}</h1>
+  </div>
+  <div class="col-md-12">
+    <form name="vm.form.datasetForm" enctype="multipart/form-data" class="form-horizontal" method="post" ng-submit="vm.uploadDataset()" novalidate>
+      <fieldset>
+        <div class="form-group" show-errors>
+          <label class="control-label" for="name">Name</label>
+          <input name="name" type="text" ng-model="vm.dataset.name" id="name" class="form-control" placeholder="Name" required>
+          <div ng-messages="vm.form.datasetForm.name.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Dataset name is required.</p>
+          </div>
+        </div>
+        <div class="list-group">
+          <div class="list-group-item" data-ng-repeat="item in vm.uploader.queue">
+            <small class="list-group-item-text">
+              <a ng-click="vm.clearUploaderQueue()" class="btn btn-xs btn-danger"><i class="glyphicon glyphicon-trash"></i> Remove</a>
+              <strong>{{ item.file.name }}</strong>
+            </small>
+          </div>
+          <div ng-hide="vm.uploader.queue.length" class="list-group-item">
+            <small class="list-group-item-text text-danger">
+              No file selected
+            </small>
+          </div>
+        </div>
+        <div class="form-group">
+          <span ng-hide="vm.uploader.queue.length" class="btn btn-primary btn-file">
+              Select File <input type="file" nv-file-select ng-required="false" uploader="vm.uploader">
+          </span>
+          <button ng-show="vm.uploader.queue.length" type="submit" class="btn btn-primary">Upload</button>
+          <button class="btn btn-default" ng-click="vm.cancelUpload();">Cancel</button>
+        </div>
+        <p class="help-text" ng-bind="vm.progressText"></p>
+        <div ng-show="vm.success" class="text-success">
+          <strong>Dataset Uploaded Successfully</strong>
+        </div>
+        <div ng-show="vm.error" class="text-danger">
+          <strong ng-bind="vm.error"></strong>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+</section>

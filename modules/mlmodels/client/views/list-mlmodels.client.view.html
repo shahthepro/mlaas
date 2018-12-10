@@ -1,0 +1,24 @@
+<section>
+  <div class="page-header">
+    <h1>Models</h1>
+  </div>
+  <div class="list-group">
+    <span data-ng-repeat="mlmodel in vm.mlmodels"
+       class="list-group-item">
+      <h4 class="list-group-item-heading" data-ng-bind="mlmodel.name"></h4>
+      <strong>Status: <span data-ng-bind="mlmodel.trainingStatus"></span></strong><br/>
+      <span ng-show="mlmodel.lastTrained">Last Processed on: <span data-ng-bind="mlmodel.lastTrained | date:'medium'"></span> - </span> 
+      <span ng-show="mlmodel.lastTrainingStatus">Last Processing Status: <span data-ng-bind="mlmodel.lastTrainingStatus"></span></span>
+      <div class="block" style="margin-top: 10px;">
+        <a ui-sref="mlmodels.predict({ mlmodelId: mlmodel._id })" ng-show="mlmodel.trainingStatus=='Idle'" class="btn btn-primary">Predict</a>
+        <a ui-sref="mlmodels.train({ mlmodelId: mlmodel._id })" ng-show="mlmodel.trainingStatus == 'Idle' | mlmodel.trainingStatus == 'Untrained'" class="btn btn-default">Train</a>
+        <a ng-show="mlmodel.predictionDownloadLink" target="_blank" href="/api/models/{{ mlmodel._id }}/download" class="btn btn-default">Download</a>
+      </div>
+      <span ng-show="mlmodel.trainingStatus=='Untrained'" class="text-danger">{{ mlmodel.name }} is yet to be trained. </span>
+      <span ng-hide="mlmodel.trainingStatus=='Idle'" class="text-danger">You cannot perform predictions on this model now.</span>
+    </span>
+  </div>
+  <div class="alert alert-warning text-center" data-ng-if="vm.mlmodels.$resolved && !vm.mlmodels.length">
+    No MLModels yet, why don't you <a data-ui-sref="mlmodels.create">create one</a>?
+  </div>
+</section>
